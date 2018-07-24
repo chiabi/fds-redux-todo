@@ -4,10 +4,16 @@ import axios from 'axios';
 const ADD_TODO_REQUEST = 'fds-redux-todo/todo/ADD_TODO_REQUEST';
 const ADD_TODO_SUCCESS = 'fds-redux-todo/todo/ADD_TODO_SUCCESS';
 const ADD_TODO_FAILURE = 'fds-redux-todo/todo/ADD_TODO_FAILURE';
+
+const DELETE_TODO_REQUEST = 'fds-redux-todo/todo/DELETE_TODO_REQUEST';
+const DELETE_TODO_SUCCESS = 'fds-redux-todo/todo/DELETE_TODO_SUCCESS';
+const DELETE_TODO_FAILURE = 'fds-redux-todo/todo/DELETE_TODO_FAILURE';
+
 const FETCH_TODOS_REQUEST = 'fds-redux-todo/todo/FETCH_TODOS_REQUEST';
 const FETCH_TODOS_SUCCESS = 'fds-redux-todo/todo/FETCH_TODOS_SUCCESS';
 const FETCH_TODOS_FAILURE = 'fds-redux-todo/todo/FETCH_TODOS_FAILURE';
-let idCount = 1;
+
+// let idCount = 1;
 
 // 액션 생산자
 export function addTodoRequest() {
@@ -39,6 +45,36 @@ export function addTodo(body) {
       dispatch(fetchTodos());
     } catch (e) {
       dispatch(addTodoFailure(e.message));
+    }
+  };
+}
+
+export function deleteTodoRequest() {
+  return {
+    type: DELETE_TODO_REQUEST,
+  };
+}
+export function deleteTodoSuccess() {
+  return {
+    type: DELETE_TODO_SUCCESS,
+  };
+}
+export function deleteTodoFailure(errorMsg) {
+  return {
+    type: DELETE_TODO_FAILURE,
+    errorMsg,
+  };
+}
+
+export function deleteTodo(id) {
+  return async function(dispatch) {
+    dispatch(deleteTodoRequest());
+    try {
+      await axios.delete(`https://aspiring-waiter.glitch.me/todos/${id}`);
+      dispatch(deleteTodoSuccess());
+      dispatch(fetchTodos());
+    } catch (e) {
+      dispatch(deleteTodoFailure(e.message));
     }
   };
 }

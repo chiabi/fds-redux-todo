@@ -12,6 +12,7 @@ export default class TodoList extends Component {
       // }
     ],
     onComplete: id => {}, // 할 일이 완료되었을 때 호출될 함수
+    onDelete: id => {}, // 아이템 삭제
     loading: false,
     errorMsg: null,
   };
@@ -20,7 +21,7 @@ export default class TodoList extends Component {
     this.props.onMount && this.props.onMount();
   }
   render() {
-    const { todos, onComplete, loading, errorMsg } = this.props;
+    const { todos, onComplete, onDelete, loading, errorMsg } = this.props;
     return loading ? (
       <div>loading...</div>
     ) : errorMsg ? (
@@ -34,6 +35,9 @@ export default class TodoList extends Component {
             complete={complete}
             onComplete={() => {
               onComplete(id);
+            }}
+            onDelete={() => {
+              onDelete(id);
             }}
           />
         ))}

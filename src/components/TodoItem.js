@@ -20,6 +20,7 @@ export default class TodoItem extends Component {
           onClick={this.handleComplete}
         />
         <span>{body}</span>
+        <button onClick={this.props.onDelete}>삭제</button>
       </div>
     );
   }
